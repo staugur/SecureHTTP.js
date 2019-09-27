@@ -1,0 +1,35 @@
+{
+    "name": "securehttp",
+    "version": "0.2.0",
+    "description": "Make HTTP transmissions more secure via RSA+AES, encrypted communication for nodejs or browser.",
+    "main": "SecureHTTP.js",
+    "dependencies": {
+        "crypto-js": "^3.1.9-1",
+        "node-jsencrypt": "https://github.com/ArnaudValensi/node-jsencrypt"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.6.2",
+        "@babel/preset-env": "^7.6.2",
+        "rollup": "^1.21.4",
+        "rollup-plugin-babel": "^4.3.3",
+        "rollup-plugin-uglify": "^6.0.3"
+    },
+    "scripts": {
+        "build": "rollup -c"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/staugur/SecureHTTP.js"
+    },
+    "keywords": [
+        "AES",
+        "RSA",
+        "Crypto-JS"
+    ],
+    "author": "staugur",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/staugur/SecureHTTP.js/issues"
+    },
+    "homepage": "https://github.com/staugur/SecureHTTP.js"
+}
