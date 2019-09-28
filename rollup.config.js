@@ -1,4 +1,6 @@
-import babel from "rollup-plugin-babel";
+import babel from 'rollup-plugin-babel';
+import resolve from 'rollup-plugin-node-resolve';
+import commonjs from 'rollup-plugin-commonjs';
 import { uglify } from "rollup-plugin-uglify";
 
 const packages = require('./package.json');
@@ -16,10 +18,16 @@ export default {
     output: {
         file: `./dist/${fileName}`,
         format: "umd",
-        name: 'securehttp'
+        name: 'securehttp',
+        sourcemap: true,
+        exports: 'named'
     },
     plugins: [
         (ENV === "production" && uglify()),
+        resolve({
+            browser: true
+        }),
+        commonjs(),
         babel({
             exclude: 'node_modules/**',
         })

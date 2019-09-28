@@ -1,18 +1,22 @@
 /*!
  * @Name: SecureHTTP
  * @Author: staugur
- * @Version: 0.2.0
  * @Pypi: 0.2.0 ~ 0.3.0+
  * @GitHub: https://github.com/staugur/Node-SecureHTTP
  * @Document: https://python-securehttp.rtfd.vip/#securehttp-js
  * @Require: brix/crypto-js、ArnaudValensi/node-jsencrypt
  * @Date: 2019-09-27
- */
+*/
 
 "use strict";
 
 var CryptoJS = require("crypto-js");
 var JSEncrypt = require('node-jsencrypt');
+/*
+import CryptoJS from 'crypto-js'
+import JSEncrypt from 'node-jsencrypt'
+*/
+//https://www.liaoxuefeng.com/wiki/1022910821149312/1023025778520640
 
 function AESEncrypt(key, plaintext) {
     /*
