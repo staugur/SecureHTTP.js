@@ -11,12 +11,8 @@
 "use strict";
 
 var CryptoJS = require("crypto-js");
-var JSEncrypt = require('node-jsencrypt');
-/*
-import CryptoJS from 'crypto-js'
-import JSEncrypt from 'node-jsencrypt'
-*/
-//https://www.liaoxuefeng.com/wiki/1022910821149312/1023025778520640
+//import CryptoJS from 'crypto-js';
+var JSEncrypt = require("node-jsencrypt");
 
 function AESEncrypt(key, plaintext) {
     /*
@@ -203,5 +199,6 @@ class EncryptedCommunicationBrowser {
 module.exports = {
     AESEncrypt,
     AESDecrypt,
+    RSAEncrypt,
     EncryptedCommunicationBrowser
-}
+};

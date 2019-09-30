@@ -75,7 +75,7 @@
             });
         });
         //RSA+AES加密通信
-        var eb = new EncryptedCommunicationBrowser(pubkey);
+        var eb = new securehttp.EncryptedCommunicationBrowser(pubkey);
         var post = {
             "a": 0,
             "c": "c",

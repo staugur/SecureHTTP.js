@@ -1,10 +1,8 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('crypto')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'crypto'], factory) :
-  (global = global || self, factory(global.securehttp = {}, global.crypto));
-}(this, function (exports, crypto) { 'use strict';
-
-  crypto = crypto && crypto.hasOwnProperty('default') ? crypto['default'] : crypto;
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (global = global || self, factory(global.securehttp = {}));
+}(this, function (exports) { 'use strict';
 
   function _typeof(obj) {
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
@@ -46,10 +44,6 @@
 
   function createCommonjsModule(fn, module) {
   	return module = { exports: {} }, fn(module, module.exports), module.exports;
-  }
-
-  function getCjsExportFromNamespace (n) {
-  	return n && n['default'] || n;
   }
 
   var core = createCommonjsModule(function (module, exports) {
@@ -6472,14 +6466,6 @@
 
   var window_1 = win;
 
-  var _nodeResolve_empty = {};
-
-  var _nodeResolve_empty$1 = /*#__PURE__*/Object.freeze({
-    'default': _nodeResolve_empty
-  });
-
-  var nodeCrypto = getCjsExportFromNamespace(_nodeResolve_empty$1);
-
   function getRandomValues(buf) {
     if (window_1.crypto && window_1.crypto.getRandomValues) {
       return window_1.crypto.getRandomValues(buf);
@@ -6487,24 +6473,7 @@
     if (typeof window_1.msCrypto === 'object' && typeof window_1.msCrypto.getRandomValues === 'function') {
       return window_1.msCrypto.getRandomValues(buf);
     }
-    if (nodeCrypto.randomBytes) {
-      if (!(buf instanceof Uint8Array)) {
-        throw new TypeError('expected Uint8Array');
-      }
-      if (buf.length > 65536) {
-        var e = new Error();
-        e.code = 22;
-        e.message = 'Failed to execute \'getRandomValues\' on \'Crypto\': The ' +
-          'ArrayBufferView\'s byte length (' + buf.length + ') exceeds the ' +
-          'number of bytes of entropy available via this API (65536).';
-        e.name = 'QuotaExceededError';
-        throw e;
-      }
-      var bytes = nodeCrypto.randomBytes(buf.length);
-      buf.set(bytes);
-      return buf;
-    }
-    else {
+    {
       throw new Error('No secure random number generator available.');
     }
   }
@@ -9213,7 +9182,9 @@
        * @name KJUR
        * @namespace kjur's class library name space
        */
-      if (typeof KJUR == "undefined" || !KJUR) KJUR = {};
+      if (typeof KJUR == "undefined" || !KJUR) {
+          var KJUR = {};
+      }
 
       /**
        * kjur's ASN.1 class library name space
@@ -10990,13 +10961,6 @@
 
   var nodeJsencrypt = JSEncryptExports.JSEncrypt;
 
-  /*
-  import CryptoJS from 'crypto-js'
-  import JSEncrypt from 'node-jsencrypt'
-  */
-  //https://www.liaoxuefeng.com/wiki/1022910821149312/1023025778520640
-
-
   function AESEncrypt(key, plaintext) {
     /*
      * [encrypt 加密]
@@ -11203,19 +11167,22 @@
     return EncryptedCommunicationBrowser;
   }();
 
-  var SecureHTTP = {
+  var securehttp = {
     AESEncrypt: AESEncrypt,
     AESDecrypt: AESDecrypt,
+    RSAEncrypt: RSAEncrypt,
     EncryptedCommunicationBrowser: EncryptedCommunicationBrowser
   };
-  var SecureHTTP_1 = SecureHTTP.AESEncrypt;
-  var SecureHTTP_2 = SecureHTTP.AESDecrypt;
-  var SecureHTTP_3 = SecureHTTP.EncryptedCommunicationBrowser;
+  var securehttp_1 = securehttp.AESEncrypt;
+  var securehttp_2 = securehttp.AESDecrypt;
+  var securehttp_3 = securehttp.RSAEncrypt;
+  var securehttp_4 = securehttp.EncryptedCommunicationBrowser;
 
-  exports.AESDecrypt = SecureHTTP_2;
-  exports.AESEncrypt = SecureHTTP_1;
-  exports.EncryptedCommunicationBrowser = SecureHTTP_3;
-  exports.default = SecureHTTP;
+  exports.AESDecrypt = securehttp_2;
+  exports.AESEncrypt = securehttp_1;
+  exports.EncryptedCommunicationBrowser = securehttp_4;
+  exports.RSAEncrypt = securehttp_3;
+  exports.default = securehttp;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
