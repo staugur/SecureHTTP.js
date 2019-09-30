@@ -21,7 +21,11 @@ export default {
         format: "umd",
         name: "securehttp",
         exports: "named",
-        sourcemap: true
+        sourcemap: true,
+        globals: {
+            'crypto-js': 'CryptoJS',
+            'jsencrypt': 'JSEncrypt'
+        }
     },
     plugins: [
         builtins(),

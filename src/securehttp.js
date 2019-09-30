@@ -1,32 +1,37 @@
 /*!
- * @Name: SecureHTTP
+ * @Name: securehttp
  * @Author: staugur
  * @Pypi: 0.2.0 ~ 0.3.0+
- * @GitHub: https://github.com/staugur/Node-SecureHTTP
+ * @GitHub: https://github.com/staugur/SecureHTTP.js
  * @Document: https://python-securehttp.rtfd.vip/#securehttp-js
  * @Require: brix/crypto-js、ArnaudValensi/node-jsencrypt
  * @Date: 2019-09-27
-*/
+ * @Modify: 2019-09-30
+ */
 
 "use strict";
 
 var CryptoJS = require("crypto-js");
-//import CryptoJS from 'crypto-js';
 var JSEncrypt = require("node-jsencrypt");
+//使用ES6语法导入travist/jsencrypt模块，但是不支持node环境
+//而node-jsencrypt可以使用node导入，在ES6下有问题
 
 function AESEncrypt(key, plaintext) {
     /*
      * [encrypt 加密]
-     * @return {[type]} [description]
+     * @return 密文
      */
-    var iv = key.substring(0, 16);
-    var generator = CryptoJS.AES.encrypt(plaintext, CryptoJS.enc.Utf8.parse(key), {
+    if (key.length != 16 && key.length != 32) {
+        return false;
+    }
+    let iv = key.substring(0, 16);
+    let generator = CryptoJS.AES.encrypt(plaintext, CryptoJS.enc.Utf8.parse(key), {
         iv: CryptoJS.enc.Utf8.parse(iv),
         mode: CryptoJS.mode.CBC,
         padding: CryptoJS.pad.Pkcs7
     });
     //hex格式密文
-    var ciphertext = generator.ciphertext.toString();
+    let ciphertext = generator.ciphertext.toString();
     //hex转为base64
     return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Hex.parse(ciphertext));
 }
@@ -34,10 +39,13 @@ function AESEncrypt(key, plaintext) {
 function AESDecrypt(key, ciphertext) {
     /*
      * [decrypt 解密]
-     * @return {[type]} [description]
+     * @return 明文
      */
-    var iv = key.substring(0, 16);
-    var generator = CryptoJS.AES.decrypt(ciphertext.toString(), CryptoJS.enc.Utf8.parse(key), {
+    if (key.length != 16 && key.length != 32) {
+        return false;
+    }
+    let iv = key.substring(0, 16);
+    let generator = CryptoJS.AES.decrypt(ciphertext.toString(), CryptoJS.enc.Utf8.parse(key), {
         iv: CryptoJS.enc.Utf8.parse(iv),
         mode: CryptoJS.mode.CBC,
         padding: CryptoJS.pad.Pkcs7
@@ -46,9 +54,25 @@ function AESDecrypt(key, ciphertext) {
 }
 
 function RSAEncrypt(pubkey, plaintext) {
-    var encrypt = new JSEncrypt();
-    encrypt.setPublicKey(pubkey);
-    return encrypt.encrypt(plaintext);
+    /*
+     * [encrypt 公钥加密]
+     * @param pubkey: only pkcs8
+     * @return 密文
+     */
+    let je = new JSEncrypt();
+    je.setPublicKey(pubkey);
+    return je.encrypt(plaintext);
+}
+
+function RSADecrypt(privkey, ciphertext) {
+    /*
+     * [encrypt 私钥解密]
+     * @param privkey: only pkcs8
+     * @return 明文
+     */
+    let je = new JSEncrypt();
+    je.setPrivateKey(privkey);
+    return je.decrypt(ciphertext);
 }
 
 class EncryptedCommunicationBrowser {
@@ -56,7 +80,7 @@ class EncryptedCommunicationBrowser {
     constructor(PublicKey) {
         //AESKey自动生成
         this.AESKey = this._randomWord(32);
-        //pkcs1或pkcs8格式公钥
+        //pkcs8格式公钥
         this.PublicKey = PublicKey;
     }
 
@@ -102,7 +126,7 @@ class EncryptedCommunicationBrowser {
         /*
             @params object: uri请求参数(包含除signature外的公共参数)
         */
-        if (typeof(params) != "object" || typeof(meta) != "object") {
+        if (typeof (params) != "object" || typeof (meta) != "object") {
             console.error("params or meta is not an object");
             return false;
         }
@@ -148,11 +172,11 @@ class EncryptedCommunicationBrowser {
     }
 
     browserEncrypt(post, signIndex) {
-        if (typeof(post) != "object") {
+        if (!post || typeof post != "object" || Array.isArray(post)) {
             console.error("post is not an object");
             return false;
         }
-        if (!signIndex) {
+        if (!signIndex || typeof signIndex != "string") {
             console.error('Invalid signIndex');
             return false;
         }
@@ -173,7 +197,7 @@ class EncryptedCommunicationBrowser {
     }
 
     browserDecrypt(encryptedRespData) {
-        if (typeof(encryptedRespData) != "object") {
+        if (typeof (encryptedRespData) != "object") {
             console.error("encryptedRespData is not an object");
             return false;
         }
@@ -200,5 +224,6 @@ module.exports = {
     AESEncrypt,
     AESDecrypt,
     RSAEncrypt,
+    RSADecrypt,
     EncryptedCommunicationBrowser
 };

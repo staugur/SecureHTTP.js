@@ -23,11 +23,7 @@
     <h3>RSA+AES完整示例（服务器原样返回加密数据）：</h3>
     <div id="showResult"></div>
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-    <!--
-    <script src="https://cdn.bootcss.com/crypto-js/3.1.9-1/crypto-js.js"></script>
-    <script src="https://cdn.bootcss.com/jsencrypt/3.0.0-rc.1/jsencrypt.min.js"></script>
-    -->
-    <script src="{{ url_for('static', filename='securehttp.js') }}"></script>
+    <script src="{{ url_for('static', filename='securehttp.min.js') }}"></script>
     <script type="text/javascript">
         function syntaxHighlight(json) {
             //json格式化高亮显示到页面中
@@ -59,7 +55,7 @@
             $.ajax({
                 url: "{{ url_for('index') }}",
                 type: 'post',
-                data: {username: username, password: RSAEncrypt(pubkey, password)},
+                data: {username: username, password: securehttp.RSAEncrypt(pubkey, password)},
                 dataType: 'json',
                 success: function (res) {
                     console.info(res);
