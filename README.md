@@ -12,7 +12,7 @@ Make HTTP transmissions more secure via RSA+AES, encrypted communication for nod
 
     - `git clone https://github.com/staugur/SecureHTTP.js`
 
-    - `yarn add securehttp` 或 `npm install securehttp`
+    - `yarn add securehttp` 或 `npm install securehttp --save`
 
 - 依赖
 
