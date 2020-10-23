@@ -5,7 +5,7 @@
     "main": "src/securehttp.js",
     "dependencies": {
         "crypto-js": "^3.1.9-1",
-        "node-jsencrypt": "https://github.com/staugur/node-jsencrypt"
+        "node-jsencrypt": "https://github.com/saintic/node-jsencrypt"
     },
     "devDependencies": {
         "@babel/core": "^7.6.2",
