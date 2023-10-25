@@ -4,7 +4,7 @@
     "description": "Make HTTP transmissions more secure via RSA+AES, encrypted communication for nodejs or browser.",
     "main": "src/securehttp.js",
     "dependencies": {
-        "crypto-js": "^3.1.9-1",
+        "crypto-js": "^4.2.0",
         "node-jsencrypt": "https://github.com/saintic/node-jsencrypt"
     },
     "devDependencies": {
